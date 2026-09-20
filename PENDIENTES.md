@@ -10,7 +10,7 @@ Este archivo se actualiza a medida que avanza el proyecto. Lista lo que falta co
 ## Accesos externos que faltan
 
 - [x] **GitHub**: autenticado con la cuenta institucional (`gh`/`git`), repositorio creado y con push realizado.
-- [ ] **Hosting** (Render u otro con plan gratuito para Tomcat): falta la cuenta/token para el despliegue.
+- [x] **Hosting**: cuenta de Render creada (login con GitHub), base de datos PostgreSQL gratuita creada (`edificio-db`) y Web Service desplegado desde el repositorio con el `Dockerfile`. Ver sección "Despliegue" más abajo.
 - [ ] **SMTP real** para el envío de la clave temporal (p. ej. contraseña de aplicación de Gmail). Mientras no llegue, `CorreoService` cae a un modo de prueba que solo escribe el correo en el log del servidor (ver `src/main/java/.../business/services/CorreoService.java`).
 - [ ] **Guía del profesor en PDF**: los dos enlaces de Drive pidieron permiso de acceso y no se pudieron descargar (devolvieron una página HTML de aviso, no el PDF). Se usó el **plan de respaldo** (controladores JSP con `switch` sobre `action`, capas Domain.Model / Infrastructure.Database / Infrastructure.Persistence / Business.Exceptions / Business.Services). Si se consigue el contenido real de la guía, ajustar la arquitectura si difiere.
 
@@ -29,10 +29,10 @@ Este archivo se actualiza a medida que avanza el proyecto. Lista lo que falta co
 - [x] **Pruebas de punta a punta en Tomcat 10 real contra MariaDB real**: verificado en el navegador (login, CRUD de las dos entidades, los 4 reportes, recuperación de clave con clave temporal real, cierre de sesión, protección de páginas sin sesión y control de acceso por rol). Ver "Entorno de pruebas local" más abajo.
 - [x] Capturas de la aplicación funcionando (`docs/capturas/`): 14 imágenes (login, listado y CRUD de edificios, listado de usuarios, los 4 reportes con resultados, recuperación de clave, login con clave temporal, bloqueo por rol, bloqueo por sesión).
 - [x] Capturas de código resaltado (`docs/capturas-codigo/`): 8 imágenes (entidad Usuario, entidad Edificio, EdificioDAO, EdificioController, listar.jsp de edificios, SesionFilter, ReporteController, recuperación de clave en UsuarioService).
-- [x] Historial de commits real en `main` (27 commits, un solo autor: Miguel Lara).
+- [x] Historial de commits real en `main` (más de 25 commits, un solo autor: Miguel Lara).
 - [x] Verificación de contribuidores: `gh api repos/mlarav1/edificio-miguel-lara/contributors` solo lista a `mlarav1`.
-- [ ] Despliegue en Render (o similar) con base de datos accesible desde Internet.
-- [ ] Documento Word (.docx) de evidencias.
+- [x] **Despliegue en Render** con base de datos PostgreSQL accesible desde internet: https://edificio-miguel-lara.onrender.com (verificado con login real, CRUD y datos reales cargados en producción).
+- [x] Documento Word (.docx) de evidencias: `docs/evidencias-edificio-miguel-lara.docx`.
 - [ ] PDF de entrega (ficha) con hipervínculos.
 - [ ] Video de sustentación (grabación personal, tarea exclusiva del estudiante).
 
@@ -52,10 +52,17 @@ Para probar de punta a punta en esta máquina se usó un entorno portátil sin i
 - MariaDB portátil (ZIP, sin instalador ni servicio de Windows), corriendo en el puerto 3307 con los scripts `db/schema.sql` y `db/data.sql` cargados.
 - Git portátil y GitHub CLI portátil para el control de versiones y la creación del repositorio.
 
-Nada de esto se sube al repositorio ni es necesario para el despliegue final (que usará el hosting real con su propia base de datos).
+Nada de esto se sube al repositorio ni es necesario para el despliegue final (que usa el hosting real con su propia base de datos).
+
+## Despliegue
+
+- **Aplicación**: https://edificio-miguel-lara.onrender.com (Render, Web Service gratuito desplegado desde `Dockerfile`, conectado directo al repositorio público de GitHub sin necesidad de instalar la GitHub App de Render).
+- **Base de datos**: PostgreSQL gratuito de Render (`edificio-db`), con `db/schema.sql` y `db/data.sql` ya cargados y verificados.
+- **Limitaciones del plan gratuito** (documentadas también en el README): el servicio web se duerme tras inactividad (primera petición puede tardar 50+ segundos), y la base de datos gratuita expira el 20 de octubre de 2026 si no se actualiza a un plan pago.
+- Verificado en el navegador: login real contra la base de datos de producción, listado de los 10 edificios y 3 usuarios de prueba ya cargados.
 
 ## Decisiones técnicas tomadas sin consultar
 
-- Motor de base de datos: **MySQL** (tiene planes gratuitos verificados en varios hosting compatibles con Tomcat, y es el más común en los cursos de la guía).
+- Motor de base de datos: **PostgreSQL** (se evaluó MySQL primero, pero al verificar el hosting elegido para el despliegue se confirmó que su plan gratuito solo ofrece PostgreSQL, no MySQL; se migró el proyecto completo antes de desplegar para usar el mismo motor en local y en producción).
 - Paquetes en minúscula (`domain.model`, `infrastructure.database`, `infrastructure.persistence`, `business.exceptions`, `business.services`) siguiendo la convención de Java, en vez de `Domain.Model` con mayúsculas. La organización de capas es la misma que pide la guía.
 - Claves de prueba de los 3 usuarios (documentadas en el README).

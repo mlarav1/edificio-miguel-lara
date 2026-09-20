@@ -12,7 +12,7 @@
 | 8 | Código comentado en puntos clave | Cumplido |
 | 9 | Pruebas de punta a punta y capturas de la aplicación funcionando | Cumplido (`docs/capturas/`, probado en Tomcat 10 + MariaDB local) |
 | 10 | Capturas de código con resaltado de sintaxis | Cumplido (`docs/capturas-codigo/`) |
-| 11 | Repositorio en GitHub con historial de 20-30 commits reales, sin atribución a IA | Pendiente de URL del repositorio |
-| 12 | Despliegue en hosting gratuito con base de datos accesible desde Internet | Pendiente de acceso al hosting |
+| 11 | Repositorio en GitHub con historial de 20-30 commits reales, sin atribución a IA | Cumplido: https://github.com/mlarav1/edificio-miguel-lara |
+| 12 | Despliegue en hosting gratuito con base de datos accesible desde Internet | Cumplido: https://edificio-miguel-lara.onrender.com |
 
 Ver `PENDIENTES.md` para el detalle de qué falta conectar en cada punto pendiente.

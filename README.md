@@ -92,11 +92,21 @@ mvn clean package
 
 ## Despliegue
 
-Ver `Dockerfile` (build multi-stage con Maven + Tomcat 10). Detalles de la plataforma elegida, la URL pública y si el plan gratuito duerme el servicio se documentan en `PENDIENTES.md` a medida que se completa el despliegue.
+**Aplicación desplegada:** https://edificio-miguel-lara.onrender.com
+
+Desplegado en Render a partir del `Dockerfile` (build multi-stage con Maven + Tomcat 10.1), conectado directamente al repositorio público de GitHub. La base de datos es un PostgreSQL gratuito de Render (`edificio-db`), con `db/schema.sql` y `db/data.sql` ya cargados.
+
+**Plan gratuito, limitaciones a tener en cuenta:**
+- El Web Service gratuito se "duerme" tras un período de inactividad; la primera petición después de dormir puede tardar 50 segundos o más en responder.
+- La base de datos PostgreSQL gratuita expira 30 días después de su creación (20 de octubre de 2026); pasado ese plazo hay que recrearla o pasar a un plan pago si se necesita mantener el despliegue vivo más tiempo.
 
 ## Documentos de la actividad
 
-- `docs/capturas/`: capturas de la aplicación funcionando.
+- `docs/capturas/`: capturas de la aplicación funcionando (incluye la app ya desplegada en producción).
 - `docs/capturas-codigo/`: capturas de código con resaltado de sintaxis.
+- `docs/evidencias-edificio-miguel-lara.docx`: documento Word de evidencias (arquitectura, flujo, capturas, historial de commits).
 - `docs/guia-sustentacion.md`: preguntas y respuestas de estudio.
+- `docs/guion-sustentacion.md`: guion para la sustentación en cámara.
+- `docs/ficha-entrega.md`: ficha de entrega con los enlaces de la actividad.
+- `docs/lista-verificacion.md`: lista de verificación de los 12 puntos de la actividad.
 - `PENDIENTES.md`: estado y pendientes del proyecto.
