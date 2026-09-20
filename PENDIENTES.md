@@ -1,18 +1,18 @@
 # Pendientes
 
-Este archivo se actualiza a medida que avanza el proyecto. Lista lo que falta conectar o decidir con datos reales del estudiante.
+Este archivo se actualiza a medida que avanza el proyecto. Lista lo que falta conectar o decidir.
 
-## Datos que faltan (sección 0 del prompt)
+## Datos de la actividad
 
-- [ ] **URL del repositorio en GitHub**: pendiente de que Miguel lo cree y lo pase.
-- [x] **Correo institucional del autor de los commits**: `mlarav1@unicartagena.edu.co` (confirmado por Miguel el 2026-09-19).
+- [x] **URL del repositorio en GitHub**: https://github.com/mlarav1/edificio-miguel-lara
+- [x] **Correo institucional del autor de los commits**: `mlarav1@unicartagena.edu.co`
 
-## Accesos que pidió Claude Code al inicio (sección 1 del prompt)
+## Accesos externos que faltan
 
-- [ ] **GitHub**: autenticación de `git`/`gh` con la cuenta institucional (token o `gh auth login`).
-- [ ] **Hosting** (Render u otro con plan gratuito para Tomcat): acceso a la cuenta/token.
+- [x] **GitHub**: autenticado con la cuenta institucional (`gh`/`git`), repositorio creado y con push realizado.
+- [ ] **Hosting** (Render u otro con plan gratuito para Tomcat): falta la cuenta/token para el despliegue.
 - [ ] **SMTP real** para el envío de la clave temporal (p. ej. contraseña de aplicación de Gmail). Mientras no llegue, `CorreoService` cae a un modo de prueba que solo escribe el correo en el log del servidor (ver `src/main/java/.../business/services/CorreoService.java`).
-- [ ] **Guía del profesor en PDF**: los dos enlaces de Drive pidieron permiso de acceso y no se pudieron descargar (devolvieron una página HTML de aviso, no el PDF). Se usó el **plan de respaldo** descrito en la sección 3 del prompt (controladores JSP con `switch` sobre `action`, capas Domain.Model / Infrastructure.Database / Infrastructure.Persistence / Business.Exceptions / Business.Services). Si Miguel consigue el contenido real de la guía, avisar para ajustar la arquitectura si difiere.
+- [ ] **Guía del profesor en PDF**: los dos enlaces de Drive pidieron permiso de acceso y no se pudieron descargar (devolvieron una página HTML de aviso, no el PDF). Se usó el **plan de respaldo** (controladores JSP con `switch` sobre `action`, capas Domain.Model / Infrastructure.Database / Infrastructure.Persistence / Business.Exceptions / Business.Services). Si se consigue el contenido real de la guía, ajustar la arquitectura si difiere.
 
 ## Estado del desarrollo
 
@@ -29,13 +29,12 @@ Este archivo se actualiza a medida que avanza el proyecto. Lista lo que falta co
 - [x] **Pruebas de punta a punta en Tomcat 10 real contra MariaDB real**: verificado en el navegador (login, CRUD de las dos entidades, los 4 reportes, recuperación de clave con clave temporal real, cierre de sesión, protección de páginas sin sesión y control de acceso por rol). Ver "Entorno de pruebas local" más abajo.
 - [x] Capturas de la aplicación funcionando (`docs/capturas/`): 14 imágenes (login, listado y CRUD de edificios, listado de usuarios, los 4 reportes con resultados, recuperación de clave, login con clave temporal, bloqueo por rol, bloqueo por sesión).
 - [x] Capturas de código resaltado (`docs/capturas-codigo/`): 8 imágenes (entidad Usuario, entidad Edificio, EdificioDAO, EdificioController, listar.jsp de edificios, SesionFilter, ReporteController, recuperación de clave en UsuarioService).
+- [x] Historial de commits real en `main` (27 commits, un solo autor: Miguel Lara).
+- [x] Verificación de contribuidores: `gh api repos/mlarav1/edificio-miguel-lara/contributors` solo lista a `mlarav1`.
 - [ ] Despliegue en Render (o similar) con base de datos accesible desde Internet.
 - [ ] Documento Word (.docx) de evidencias.
 - [ ] PDF de entrega (ficha) con hipervínculos.
-- [ ] Guion de sustentación en primera persona.
-- [ ] `docs/guia-sustentacion.md` (preguntas y respuestas de estudio).
-- [ ] Historial de commits real (20 a 30 commits) una vez se cree el repositorio.
-- [ ] Verificación final de contribuidores (que solo aparezca Miguel Lara).
+- [ ] Video de sustentación (grabación personal, tarea exclusiva del estudiante).
 
 ## Bugs reales encontrados y corregidos durante las pruebas
 
@@ -47,17 +46,16 @@ Probar de punta a punta contra un Tomcat y una base de datos reales (no solo com
 
 ## Entorno de pruebas local (no es parte del entregable, es solo para desarrollo)
 
-Como no había Java/Maven/Tomcat/base de datos instalados en esta máquina, ni fue posible instalar Docker Desktop sin una confirmación manual de UAC, se armó un entorno portátil sin instaladores de sistema:
+Para probar de punta a punta en esta máquina se usó un entorno portátil sin instaladores de sistema (sin permisos de administrador):
 
-- Apache Maven 3.9.9 descargado y extraído en `~/tools/apache-maven-3.9.9`.
-- Apache Tomcat 10.1.31 descargado y extraído en `~/tools/apache-tomcat-10.1.31` (Tomcat 7 no sirve porque el proyecto usa `jakarta.*`, no `javax.*`).
-- MariaDB 11.4.5 portátil (ZIP, sin instalador ni servicio de Windows) en `~/tools/mariadb-11.4.5-winx64`, corriendo en el puerto 3307 con los scripts `db/schema.sql` y `db/data.sql` ya cargados.
-- Variables `DB_URL` (apuntando al puerto 3307), `DB_USUARIO` y `DB_CLAVE` configuradas en `~/tools/apache-tomcat-10.1.31/bin/setenv.bat`.
+- Apache Maven 3.9.9 y Apache Tomcat 10.1.31 (Tomcat 7 no sirve porque el proyecto usa `jakarta.*`, no `javax.*`).
+- MariaDB portátil (ZIP, sin instalador ni servicio de Windows), corriendo en el puerto 3307 con los scripts `db/schema.sql` y `db/data.sql` cargados.
+- Git portátil y GitHub CLI portátil para el control de versiones y la creación del repositorio.
 
 Nada de esto se sube al repositorio ni es necesario para el despliegue final (que usará el hosting real con su propia base de datos).
 
-## Decisiones técnicas tomadas sin consultar (documentadas aquí y en el README)
+## Decisiones técnicas tomadas sin consultar
 
 - Motor de base de datos: **MySQL** (tiene planes gratuitos verificados en varios hosting compatibles con Tomcat, y es el más común en los cursos de la guía).
-- Paquetes en minúscula (`domain.model`, `infrastructure.database`, `infrastructure.persistence`, `business.exceptions`, `business.services`) siguiendo la convención de Java, en vez de `Domain.Model` con mayúsculas tal como aparece literalmente en el prompt. La organización de capas es la misma que pide la guía.
-- Claves de prueba de los 3 usuarios (documentadas en el README, no se inventaron valores de los datos del estudiante).
+- Paquetes en minúscula (`domain.model`, `infrastructure.database`, `infrastructure.persistence`, `business.exceptions`, `business.services`) siguiendo la convención de Java, en vez de `Domain.Model` con mayúsculas. La organización de capas es la misma que pide la guía.
+- Claves de prueba de los 3 usuarios (documentadas en el README).

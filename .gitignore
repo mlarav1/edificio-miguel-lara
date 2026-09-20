@@ -7,7 +7,5 @@ target/
 *.iml
 .vscode/
 .DS_Store
-.claude/
-CLAUDE.md
 .github/modernize/
-prompt-claude-code-edificio-miguel-lara.md
+prompt-*.md
