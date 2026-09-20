@@ -6,12 +6,17 @@ import com.miguellara.edificio.business.exceptions.ValidacionException;
 import com.miguellara.edificio.domain.model.Usuario;
 import com.miguellara.edificio.infrastructure.persistence.UsuarioDAO;
 
+import java.security.SecureRandom;
 import java.util.List;
 
-/** Reglas de negocio de Usuario: validacion y login. */
+/** Reglas de negocio de Usuario: validacion, login y recuperacion de clave. */
 public class UsuarioService {
 
+    private static final String CARACTERES_CLAVE_TEMPORAL = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+    private static final SecureRandom ALEATORIO = new SecureRandom();
+
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final CorreoService correoService = new CorreoService();
 
     public void crear(Usuario usuario, String claveEnTexto) throws ValidacionException, PersistenciaException {
         validar(usuario, claveEnTexto);
@@ -74,6 +79,29 @@ public class UsuarioService {
             throw new AutenticacionException("Correo o clave incorrectos.");
         }
         return usuario;
+    }
+
+    /**
+     * Genera una clave temporal aleatoria, la guarda con hash y la envia por
+     * correo al usuario. No revela si el correo existe o no en la respuesta
+     * publica, para no filtrar informacion de la base de usuarios.
+     */
+    public void recuperarClave(String correo) throws PersistenciaException {
+        Usuario usuario = usuarioDAO.buscarPorId(correo);
+        if (usuario == null) {
+            return;
+        }
+        String claveTemporal = generarClaveTemporal(10);
+        usuarioDAO.actualizarClave(correo, HashService.hashear(claveTemporal));
+        correoService.enviarClaveTemporal(correo, usuario.getNombre(), claveTemporal);
+    }
+
+    private String generarClaveTemporal(int longitud) {
+        StringBuilder clave = new StringBuilder(longitud);
+        for (int i = 0; i < longitud; i++) {
+            clave.append(CARACTERES_CLAVE_TEMPORAL.charAt(ALEATORIO.nextInt(CARACTERES_CLAVE_TEMPORAL.length())));
+        }
+        return clave.toString();
     }
 
     private void validar(Usuario usuario, String claveEnTexto) throws ValidacionException {
