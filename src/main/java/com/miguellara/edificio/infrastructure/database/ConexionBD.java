@@ -11,15 +11,15 @@ import java.sql.SQLException;
  */
 public final class ConexionBD {
 
-    private static final String URL = valorEnv("DB_URL", "jdbc:mysql://localhost:3306/edificio_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
-    private static final String USUARIO = valorEnv("DB_USUARIO", "root");
+    private static final String URL = valorEnv("DB_URL", "jdbc:postgresql://localhost:5432/edificio_db");
+    private static final String USUARIO = valorEnv("DB_USUARIO", "postgres");
     private static final String CLAVE = valorEnv("DB_CLAVE", "");
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new ExceptionInInitializerError("No se encontro el driver JDBC de MySQL: " + e.getMessage());
+            throw new ExceptionInInitializerError("No se encontro el driver JDBC de PostgreSQL: " + e.getMessage());
         }
     }
 

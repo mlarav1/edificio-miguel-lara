@@ -1,5 +1,5 @@
 -- Datos de prueba para el ejercicio 13 (Edificio)
-USE edificio_db;
+-- Se ejecuta despues de schema.sql, dentro de la misma base de datos.
 
 -- Usuarios de prueba (claves en texto plano indicadas en el README y en PENDIENTES.md,
 -- aqui se guardan con hash BCrypt, costo 12)

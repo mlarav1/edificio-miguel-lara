@@ -1,8 +1,7 @@
 -- Esquema de base de datos para el ejercicio 13 (Edificio)
--- Motor: MySQL 8+
-
-CREATE DATABASE IF NOT EXISTS edificio_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE edificio_db;
+-- Motor: PostgreSQL 14+
+-- Este script se ejecuta directamente dentro de la base de datos ya creada
+-- por el proveedor de hosting (no crea ni selecciona la base de datos).
 
 DROP TABLE IF EXISTS usuario;
 CREATE TABLE usuario (
@@ -14,7 +13,7 @@ CREATE TABLE usuario (
 
 DROP TABLE IF EXISTS edificio;
 CREATE TABLE edificio (
-    id                    INT AUTO_INCREMENT PRIMARY KEY,
+    id                    SERIAL PRIMARY KEY,
     nombre                VARCHAR(150)   NOT NULL,
     metros_cuadrados      DECIMAL(10,2)  NOT NULL,
     altura                DECIMAL(6,2)   NOT NULL,

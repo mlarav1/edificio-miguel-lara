@@ -45,7 +45,7 @@ Los nombres de paquete se usan en minúscula (`domain.model`, `infrastructure.pe
 
 ## Requisitos funcionales cubiertos
 
-1. Base de datos MySQL (`db/schema.sql`, `db/data.sql`) con 3 usuarios de distintos roles y 10 edificios de ciudades colombianas.
+1. Base de datos PostgreSQL (`db/schema.sql`, `db/data.sql`) con 3 usuarios de distintos roles y 10 edificios de ciudades colombianas. Se eligió PostgreSQL porque es el único motor relacional con plan gratuito verificado en el hosting usado para el despliegue (ver sección Despliegue).
 2. CRUD completo de Usuario y Edificio con validaciones.
 3. Cuatro reportes parametrizados:
    - Edificio: por ciudad y rango de pisos; por rango de valor de administración con filtro opcional de ascensor y zona social.
@@ -60,17 +60,17 @@ Los nombres de paquete se usan en minúscula (`domain.model`, `infrastructure.pe
 
 Copia `.env.example` y define las variables en tu entorno o en el panel del hosting:
 
-- `DB_URL`, `DB_USUARIO`, `DB_CLAVE`: conexión JDBC a MySQL.
+- `DB_URL`, `DB_USUARIO`, `DB_CLAVE`: conexión JDBC a PostgreSQL.
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USUARIO`, `SMTP_CLAVE`, `SMTP_REMITENTE`: envío de correo real. **Si `SMTP_HOST` está vacío**, `CorreoService` cae a un modo de prueba que solo escribe el correo (con la clave temporal) en el log del servidor, para poder desarrollar sin credenciales SMTP.
 
 ## Ejecución local
 
-Requisitos: JDK 17+, Maven 3.9+, MySQL 8+.
+Requisitos: JDK 17+, Maven 3.9+, PostgreSQL 14+, Apache Tomcat 10.1+ (Jakarta EE 10; Tomcat 9 o anterior no sirve).
 
 ```bash
 # 1. Crear la base de datos y cargar los datos de prueba
-mysql -u root -p < db/schema.sql
-mysql -u root -p < db/data.sql
+psql -U postgres -d edificio_db -f db/schema.sql
+psql -U postgres -d edificio_db -f db/data.sql
 
 # 2. Configurar variables de entorno (o exportarlas en la terminal)
 cp .env.example .env
@@ -78,9 +78,8 @@ cp .env.example .env
 # 3. Compilar y empaquetar
 mvn clean package
 
-# 4. Ejecutar en Tomcat (usando el plugin embebido)
-mvn tomcat7:run
-# la app queda en http://localhost:8080/edificio
+# 4. Desplegar target/edificio.war en un Tomcat 10.1+ y visitar
+# http://localhost:8080/edificio
 ```
 
 ## Usuarios de prueba
