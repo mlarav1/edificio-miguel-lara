@@ -1,0 +1,17 @@
+<header class="barra-superior">
+    <a href="${pageContext.request.contextPath}/controllers/EdificioController.jsp?action=listar">Edificio App</a>
+    <c:if test="${not empty sessionScope.usuario}">
+        <nav class="menu-principal">
+            <a href="${pageContext.request.contextPath}/controllers/EdificioController.jsp?action=listar">Edificios</a>
+            <a href="${pageContext.request.contextPath}/reportes/edificioPorCiudad.jsp">Reporte pisos</a>
+            <a href="${pageContext.request.contextPath}/reportes/edificioPorAdministracion.jsp">Reporte administracion</a>
+            <c:if test="${sessionScope.rol == 'ADMINISTRADOR'}">
+                <a href="${pageContext.request.contextPath}/controllers/UsuarioController.jsp?action=listar">Usuarios</a>
+                <a href="${pageContext.request.contextPath}/reportes/usuarioPorRol.jsp">Reporte por rol</a>
+                <a href="${pageContext.request.contextPath}/reportes/usuarioPorTexto.jsp">Reporte por texto</a>
+            </c:if>
+            <span>${sessionScope.usuario} (${sessionScope.rol})</span>
+            <a href="${pageContext.request.contextPath}/controllers/LoginController.jsp?action=cerrarSesion">Cerrar sesion</a>
+        </nav>
+    </c:if>
+</header>
