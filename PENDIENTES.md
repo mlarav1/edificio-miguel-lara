@@ -58,7 +58,7 @@ Nada de esto se sube al repositorio ni es necesario para el despliegue final (qu
 
 - **Aplicación**: https://edificio-miguel-lara.onrender.com (Render, Web Service gratuito desplegado desde `Dockerfile`, conectado directo al repositorio público de GitHub sin necesidad de instalar la GitHub App de Render).
 - **Base de datos**: PostgreSQL gratuito de Render (`edificio-db`), con `db/schema.sql` y `db/data.sql` ya cargados y verificados.
-- **Limitaciones del plan gratuito** (documentadas también en el README): el servicio web se duerme tras inactividad (primera petición puede tardar 50+ segundos), y la base de datos gratuita expira el 20 de octubre de 2026 si no se actualiza a un plan pago.
+- **Limitaciones del plan gratuito** (documentadas también en el README): el servicio web se duerme tras inactividad (primera petición puede tardar 50+ segundos), y la base de datos gratuita expira 30 días después de su creación si no se actualiza a un plan pago.
 - Verificado en el navegador: login real contra la base de datos de producción, listado de los 10 edificios y 3 usuarios de prueba ya cargados.
 
 ## Decisiones técnicas tomadas sin consultar

@@ -98,7 +98,7 @@ Desplegado en Render a partir del `Dockerfile` (build multi-stage con Maven + To
 
 **Plan gratuito, limitaciones a tener en cuenta:**
 - El Web Service gratuito se "duerme" tras un período de inactividad; la primera petición después de dormir puede tardar 50 segundos o más en responder.
-- La base de datos PostgreSQL gratuita expira 30 días después de su creación (20 de octubre de 2026); pasado ese plazo hay que recrearla o pasar a un plan pago si se necesita mantener el despliegue vivo más tiempo.
+- La base de datos PostgreSQL gratuita expira 30 días después de su creación; pasado ese plazo hay que recrearla o pasar a un plan pago si se necesita mantener el despliegue vivo más tiempo.
 
 ## Documentos de la actividad
 
